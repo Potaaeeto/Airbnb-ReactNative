@@ -16,7 +16,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import CustomInput from "../components/CustomInput";
 
-const SignInScreen = ({ navigation }) => {
+const SignInScreen = ({ navigation, setToken }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   // stocker une info = creer une variable qui provoque un rafraichissement lorsqu'on change de valeur
@@ -24,24 +24,19 @@ const SignInScreen = ({ navigation }) => {
 
   // Gestion de soumission du form
   const handleSubmit = async () => {
+    setError("");
     if (email && password) {
       try {
-        const response = await axios.get(
+        const response = await axios.post(
           "https://lereacteur-bootcamp-api.herokuapp.com/api/airbnb/user/log_in",
           {
             email: email,
             password: password,
           }
         );
-        const storedEmail = await AsyncStorage.getItem("email");
-        const storedPassword = await AsyncStorage.getItem("password");
-        console.log(storedEmail);
-        console.log(storedPassword);
-        if (email === storedEmail && password === storedPassword) {
-          console.log("Login successful");
-        } else {
-          setError("Invalid email or password!");
-        }
+        console.log(response.data);
+        const userToken = response.data.token;
+        setToken(userToken);
       } catch (error) {
         console.log(error.response.data.error);
         // if (error.response.data.error === "Unauthorized") {

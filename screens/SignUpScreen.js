@@ -12,7 +12,6 @@ import {
 import { useState } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Constants from "expo-constants";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import axios from "axios";
 
@@ -51,16 +50,6 @@ const SignUpScreen = ({ navigation }) => {
           console.log(response.data);
           if (response.data.token) {
             alert("Account created!");
-            // const email = response.data.email;
-            // const password = response.data.token;
-            // console.log(email);
-            // console.log(password);
-            await AsyncStorage.setItem("getEmail", response.data.email);
-            await AsyncStorage.setItem("getPassword", response.data.token);
-            // const result = await AsyncStorage.getItem("getEmail");
-            // const resultbis = await AsyncStorage.getItem("getPassword");
-            // console.log(result);
-            // console.log(resultbis);
           }
         } catch (error) {
           if (error.response.data) {
